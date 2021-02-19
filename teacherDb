@@ -121,14 +121,15 @@ db.getCollection('students').aggregate(
 
 
 14) Не працюючих батьків влаштувати офіціантами
-db.getCollection('teacher').updateMany(
-    {
-	'parents.profession':null
-    },
-    {
-	$set:{'parents.$.profession':"waiter"}
-    }
-)
+db.getCollection('students').updateMany(
+ {  $and:[
+           { parents: {$ne: null} },
+           { 'parents.profession': null }]
+ },
+ {  $set:{ 'parents.$[elem].profession': 'Waitress' }},
+ { "arrayFilters": [{ "elem.profession": null}] }
+ 
+ )
 
 
 
